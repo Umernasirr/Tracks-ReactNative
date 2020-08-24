@@ -1,42 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { AppLoading } from 'expo';
-import { Container, Text } from 'native-base';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+// Context
+import { Provider as AuthProvider } from './src/context/AuthContext';
+
 // Screens
 import AccountScreen from './src/screens/AccountScreen';
+import SigninScreen from './src/screens/SigninScreen';
+import SignupScreen from './src/screens/SignupScreen';
+import TrackCreateScreen from './src/screens/TrackCreateScreen';
+import TrackDetailScreen from './src/screens/TrackDetailScreen';
+import TrackListScreen from './src/screens/TrackListScreen';
 
-export default function App() {
-	const [isReady, setIsReady] = useState(false);
+// Navigator
+import { navigationRef } from './src/navigationRef';
+function App() {
+	const [isSignedIn, setIsSignedIn] = useState(false);
 
-	useEffect(() => {
-		const loadFonts = async () => {
-			await Font.loadAsync({
-				Roboto: require('native-base/Fonts/Roboto.ttf'),
-				Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-				...Ionicons.font,
-			});
+	const SignStack = createStackNavigator();
+	const TrackStack = createStackNavigator();
+	const BottomTab = createBottomTabNavigator();
 
-			setIsReady(true);
-		};
-
-		loadFonts();
-		console.log('App Loaded');
-	}, []);
-
-	// Render
-	if (!isReady) {
-		return <AppLoading />;
-	}
+	const TrackStackScreen = () => {
+		return (
+			<TrackStack.Navigator initialRouteName="TrackListScreen">
+				<TrackStack.Screen name="TrackListScreen" component={TrackListScreen} />
+				<TrackStack.Screen name="TrackDetailScreen" component={TrackDetailScreen} />
+			</TrackStack.Navigator>
+		);
+	};
 
 	return (
-		<NavigationContainer>
-			<Container>
-				<Text>Open up App.js to start working on your app!</Text>
-			</Container>
+		<NavigationContainer ref={navigationRef}>
+			{!isSignedIn ? (
+				<SignStack.Navigator initialRouteName="SignupScreen">
+					<SignStack.Screen name="SignupScreen" options={{ headerShown: false }} component={SignupScreen} />
+					<SignStack.Screen name="SigninScreen" component={SigninScreen} />
+				</SignStack.Navigator>
+			) : (
+				<BottomTab.Navigator>
+					<BottomTab.Screen name="TrackStackScreen" component={TrackStackScreen} />
+
+					<BottomTab.Screen name="TrackCreateScreen" component={TrackCreateScreen} />
+					<BottomTab.Screen name="AccountScreen" component={AccountScreen} />
+				</BottomTab.Navigator>
+			)}
 		</NavigationContainer>
 	);
 }
+
+export default () => (
+	<AuthProvider>
+		<App />
+	</AuthProvider>
+);
