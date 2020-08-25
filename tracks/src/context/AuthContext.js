@@ -13,7 +13,7 @@ const authReducer = (state, action) => {
 			return { ...state, errorMessage: action.payload };
 
 		case 'signup':
-			return { ...state, errorMessage: '', token: action.payload };
+			return { ...state, errorMessage: '', token: action.payload, isSignedIn: true };
 		default:
 			return state;
 	}
@@ -29,9 +29,11 @@ const signup = (dispatch) => async (email, password) => {
 		dispatch({ type: 'signup', payload: response.data.token });
 
 		console.log('navigation point');
-		navigate('SigninScreen');
+
+		navigate('BottomTabScreenStack');
 		console.log('done ?');
 	} catch (err) {
+		console.log('An error has occured ');
 		console.log(err);
 		dispatch({ type: 'add_error', payload: 'Something went wrong with Sign up' });
 	}
@@ -46,4 +48,8 @@ const signin = (dispatch) => {
 	};
 };
 
-export const { Provider, Context } = createDataContext(authReducer, { signup }, { token: null, errorMessage: '' });
+export const { Provider, Context } = createDataContext(
+	authReducer,
+	{ signup },
+	{ isSignedIn: false, token: null, errorMessage: '' }
+);
