@@ -7,7 +7,7 @@ import { Context as LocationContext } from '../context/LocationContext';
 
 const Map = () => {
 	const {
-		state: { currentLocation },
+		state: { currentLocation, locations },
 	} = useContext(LocationContext);
 
 	if (!currentLocation) {
@@ -15,7 +15,6 @@ const Map = () => {
 	}
 
 	const coords = currentLocation.coords;
-
 	return (
 		<MapView
 			style={styles.map}
@@ -35,7 +34,7 @@ const Map = () => {
 				strokeColor="rgba(158,158,255,1.0)"
 				fillColor="rgba(158,158,255,0.4)"
 			/>
-			{/* <Polyline coordinates={points} /> */}
+			<Polyline coordinates={locations.map((loc) => loc.coords)} />
 		</MapView>
 	);
 };

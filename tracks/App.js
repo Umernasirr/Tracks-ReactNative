@@ -7,6 +7,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Context
 import { Provider as AuthProvider } from './src/context/AuthContext';
 import { Provider as LocationProvider } from './src/context/LocationContext';
+import { Provider as TrackProvider } from './src/context/TrackContext';
+
 // Screens
 import AccountScreen from './src/screens/AccountScreen';
 import SigninScreen from './src/screens/SigninScreen';
@@ -87,9 +89,11 @@ const App = () => {
 };
 
 export default () => (
-	<AuthProvider>
-		<LocationProvider>
-			<App />
-		</LocationProvider>
-	</AuthProvider>
+	<TrackProvider>
+		<AuthProvider>
+			<LocationProvider>
+				<App />
+			</LocationProvider>
+		</AuthProvider>
+	</TrackProvider>
 );

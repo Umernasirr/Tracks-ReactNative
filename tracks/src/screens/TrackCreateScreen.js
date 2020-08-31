@@ -6,7 +6,7 @@ import { withNavigationFocus } from '@react-navigation/native';
 
 import { Context as LocationContext } from '../context/LocationContext';
 import Map from '../components/Map';
-import Trackform from '../components/TrackForm';
+import TrackForm from '../components/TrackForm';
 import useLocation from '../hooks/useLocation';
 
 const TrackCreateScreen = ({ navigation }) => {
@@ -38,7 +38,7 @@ const TrackCreateScreen = ({ navigation }) => {
 			<Text h3 />
 			<Map />
 			{error ? <Text>Please Enable location services</Text> : null}
-			<Trackform />
+			<TrackForm />
 		</View>
 	);
 };
