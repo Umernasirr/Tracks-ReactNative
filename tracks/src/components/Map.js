@@ -16,7 +16,6 @@ const Map = () => {
 
 	const coords = currentLocation.coords;
 
-	console.log(currentLocation);
 	return (
 		<MapView
 			style={styles.map}

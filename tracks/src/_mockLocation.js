@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
 
-const tenMetersWithDegrees = 0.001;
+const tenMetersWithDegrees = 0.0001;
 
 const getLocation = (increment) => {
 	return {
@@ -10,8 +10,8 @@ const getLocation = (increment) => {
 			heading: 0,
 			accuracy: 5,
 			altitudeAccuracy: 5,
-			longitude: 67.077684 + increment * tenMetersWithDegrees,
-			latitude: 24.777539 + increment * tenMetersWithDegrees,
+			longitude: 67.05 + increment * tenMetersWithDegrees,
+			latitude: 24.79776 + increment * tenMetersWithDegrees,
 		},
 	};
 };
