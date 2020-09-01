@@ -1,8 +1,7 @@
-import '../_mockLocation';
+// import '../_mockLocation';
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
-import { withNavigationFocus } from '@react-navigation/native';
 
 import { Context as LocationContext } from '../context/LocationContext';
 import Map from '../components/Map';
@@ -35,7 +34,6 @@ const TrackCreateScreen = ({ navigation }) => {
 
 	return (
 		<View>
-			<Text h3 />
 			<Map />
 			{error ? <Text>Please Enable location services</Text> : null}
 			<TrackForm />

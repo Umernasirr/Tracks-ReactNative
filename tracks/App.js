@@ -16,10 +16,10 @@ import SignupScreen from './src/screens/SignupScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
-import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
-// COntext
+// Context
 import { Context as AuthContext } from './src/context/AuthContext';
-
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 // Navigator
 import { navigationRef } from './src/navigationRef';
 import { Button } from 'react-native';
@@ -28,6 +28,9 @@ const App = () => {
 
 	const SignStack = createStackNavigator();
 	const TrackStack = createStackNavigator();
+	const TrackCreateStack = createStackNavigator();
+	const AccountStack = createStackNavigator();
+
 	const BottomTab = createBottomTabNavigator();
 	const RootStack = createStackNavigator();
 	const { state } = useContext(AuthContext);
@@ -44,9 +47,21 @@ const App = () => {
 
 	const TrackStackScreen = () => {
 		return (
-			<TrackStack.Navigator initialRouteName="TrackListScreen">
-				<TrackStack.Screen name="TrackListScreen" component={TrackListScreen} />
-				<TrackStack.Screen name="TrackDetailScreen" component={TrackDetailScreen} />
+			<TrackStack.Navigator
+				screenOptions={{
+					headerStyle: {
+						backgroundColor: '#3A99F0',
+					},
+					headerTintColor: '#fff',
+				}}
+				initialRouteName="TrackListScreen"
+			>
+				<TrackStack.Screen name="TrackListScreen" component={TrackListScreen} options={{ title: 'Tracks' }} />
+				<TrackStack.Screen
+					name="TrackDetailScreen"
+					component={TrackDetailScreen}
+					options={{ title: 'Track Details' }}
+				/>
 			</TrackStack.Navigator>
 		);
 	};
@@ -58,11 +73,52 @@ const App = () => {
 		</SignStack.Navigator>
 	);
 
+	const TrackCreateStackScreen = () => (
+		<TrackCreateStack.Navigator
+			screenOptions={{
+				headerStyle: {
+					backgroundColor: '#3A99F0',
+				},
+				headerTintColor: '#fff',
+			}}
+		>
+			<TrackCreateStack.Screen name="Add Track" component={TrackCreateScreen} />
+		</TrackCreateStack.Navigator>
+	);
+
+	const AccountScreenStack = () => (
+		<AccountStack.Navigator
+			screenOptions={{
+				headerStyle: {
+					backgroundColor: '#3A99F0',
+				},
+				headerTintColor: '#fff',
+			}}
+		>
+			<TrackCreateStack.Screen name="Account Settings" component={AccountScreen} />
+		</AccountStack.Navigator>
+	);
+
 	const BottomTabScreenStack = () => (
 		<BottomTab.Navigator initialRouteName="TrackStackScreen">
-			<BottomTab.Screen name="TrackStackScreen" component={TrackStackScreen} />
-			<BottomTab.Screen name="TrackCreateScreen" component={TrackCreateScreen} />
-			<BottomTab.Screen name="AccountScreen" component={AccountScreen} />
+			<BottomTab.Screen
+				name="TrackStackScreen"
+				component={TrackStackScreen}
+				options={{
+					title: 'View Tracks',
+					tabBarIcon: () => <MaterialCommunityIcons name="map-marker-path" size={24} color="black" />,
+				}}
+			/>
+			<BottomTab.Screen
+				name="TrackCreateScreen"
+				component={TrackCreateStackScreen}
+				options={{ title: 'Add Track', tabBarIcon: () => <FontAwesome name="plus" size={18} /> }}
+			/>
+			<BottomTab.Screen
+				name="AccountScreen"
+				component={AccountScreenStack}
+				options={{ title: 'Account Settings', tabBarIcon: () => <FontAwesome name="gear" size={18} /> }}
+			/>
 		</BottomTab.Navigator>
 	);
 	return (
